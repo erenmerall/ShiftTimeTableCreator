@@ -144,3 +144,4 @@ C:\Users\erenm\ShiftTimeTable\ShiftTimeTable.API\obj\Debug\net8.0\refint\ShiftTi
 C:\Users\erenm\ShiftTimeTable\ShiftTimeTable.API\obj\Debug\net8.0\ShiftTimeTable.API.pdb
 C:\Users\erenm\ShiftTimeTable\ShiftTimeTable.API\obj\Debug\net8.0\ShiftTimeTable.API.genruntimeconfig.cache
 C:\Users\erenm\ShiftTimeTable\ShiftTimeTable.API\obj\Debug\net8.0\ref\ShiftTimeTable.API.dll
+C:\Users\erenm\ShiftTimeTable\ShiftTimeTable.API\obj\Debug\net8.0\ShiftTimeTable.API.sourcelink.json

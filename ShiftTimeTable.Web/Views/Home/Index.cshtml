@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "Vardiya Planlama";
+}
+@Html.AntiForgeryToken()
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <a class="brand" href="/">
+            <span class="brand-icon">S</span>
+            <span>Shift<span class="brand-light">TimeTable</span></span>
+        </a>
+
+        <div class="menu-label">ÇALIŞMA ALANI</div>
+        <a class="menu-item active" href="/">
+            <span>▦</span> Genel Bakış
+        </a>
+        <a class="menu-item" href="#upload">
+            <span>↥</span> Çizelge Yükle
+        </a>
+        <a class="menu-item" href="#schedule">
+            <span>▤</span> Haftalık Plan
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-status"></div>
+            <div>
+                <strong>Planlama sistemi</strong>
+                <small>Arayüz ön izlemesi</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">Çalışma alanı / Genel bakış</div>
+                <div class="topbar-title">Vardiya yönetimi</div>
+            </div>
+            <div class="user-avatar">Y</div>
+        </header>
+
+        <section class="page-content">
+            <div class="welcome-row">
+                <div>
+                    <div class="eyebrow">PLANLA · DÜZENLE · YÖNET</div>
+                    <h1>Vardiya planına hoş geldin.</h1>
+                    <p>Çizelgeni yükle, vardiyaları düzenle ve mola planını oluştur.</p>
+                </div>
+                <div class="date-chip">
+                    <span class="date-dot"></span>
+                    <span id="todayLabel">Bugün</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Toplam personel</span>
+                        <span class="stat-icon purple">♙</span>
+                    </div>
+                    <div class="stat-number" id="employeeCount">0</div>
+                    <div class="stat-note">Örnek plan verisi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Haftalık vardiya</span>
+                        <span class="stat-icon blue">▦</span>
+                    </div>
+                    <div class="stat-number" id="shiftCount">0</div>
+                    <div class="stat-note">Örnek plan verisi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Planlanan molalar</span>
+                        <span class="stat-icon green">◷</span>
+                    </div>
+                    <div class="stat-number" id="breakCount">0</div>
+                    <div class="stat-note">Örnek oluşturma işlemi</div>
+                </div>
+            </div>
+
+            <div class="workspace-grid">
+                <section class="panel upload-panel" id="upload">
+                    <div class="panel-heading">
+                        <div>
+                            <div class="section-kicker">ADIM 01</div>
+                            <h2>Vardiya çizelgesini yükle</h2>
+                            <p>Elindeki haftalık vardiya listesini sisteme aktar.</p>
+                        </div>
+                        <span class="heading-icon">↥</span>
+                    </div>
+
+                    <label for="scheduleFile" class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">↑</div>
+                        <strong>Dosyanı buraya bırak</strong>
+                        <span>veya bilgisayarından bir dosya seç</span>
+                        <span class="file-types">PNG · JPG · JPEG · PDF</span>
+                    </label>
+                    <input type="file" id="scheduleFile"
+                           accept=".png,.jpg,.jpeg,.pdf,application/pdf,image/png,image/jpeg" hidden />
+
+                    <div class="file-preview" id="filePreview" hidden>
+                        <div class="file-symbol" id="fileSymbol">IMG</div>
+                        <div class="file-info">
+                            <strong id="fileName"></strong>
+                            <span id="fileSize"></span>
+                        </div>
+                        <button type="button" class="remove-file" id="removeFile" aria-label="Dosyayı kaldır">×</button>
+                    </div>
+
+                    <div class="upload-error" id="uploadError" role="alert" hidden></div>
+
+                    <button type="button" class="primary-button" id="generateButton" disabled>
+                        <span>✦</span> Çizelgeyi oluştur
+                        <span class="button-arrow">→</span>
+                    </button>
+
+                    <p class="privacy-note">
+                        <span>ⓘ</span> Bu aşamada dosyanın ön izlemesi yapılır.
+                        Otomatik okuma henüz API'ye bağlı değildir.
+                    </p>
+                </section>
+
+                <section class="panel rules-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <div class="section-kicker">PLANLAMA AYARLARI</div>
+                            <h2>Mola kuralları</h2>
+                            <p>İlk aşama için örnek planlama sınırları.</p>
+                        </div>
+                        <span class="heading-icon">⚙</span>
+                    </div>
+
+                    <div class="rule-row">
+                        <div class="rule-symbol">◷</div>
+                        <div class="rule-copy">
+                            <strong>Kesintisiz çalışma</strong>
+                            <span>Mola öncesi en fazla çalışma süresi</span>
+                        </div>
+                        <strong class="rule-value">5 saat</strong>
+                    </div>
+                    <div class="rule-row">
+                        <div class="rule-symbol">☕</div>
+                        <div class="rule-copy">
+                            <strong>Mola süresi</strong>
+                            <span>Planlanan mola uzunluğu</span>
+                        </div>
+                        <strong class="rule-value">60 dk</strong>
+                    </div>
+                    <div class="rule-row">
+                        <div class="rule-symbol">♙</div>
+                        <div class="rule-copy">
+                            <strong>Aynı anda molada</strong>
+                            <span>Bir seferde izin verilen personel</span>
+                        </div>
+                        <strong class="rule-value">1 kişi</strong>
+                    </div>
+
+                    <div class="rules-footer">
+                        <span class="rules-check">✓</span>
+                        Kurallar ileride API üzerinden yönetilecek.
+                    </div>
+                </section>
+            </div>
+
+            
+            <section class="panel extraction-panel" id="parsedResult" hidden>
+                <div class="panel-heading">
+                    <div>
+                        <div class="section-kicker">YAPAY ZEKÂ SONUCU</div>
+                        <h2>Okunan vardiya verileri</h2>
+                        <p>JSON sonucunu kontrol et. Okunamayan saatler null olarak gösterilir.</p>
+                    </div>
+                    <button type="button" class="secondary-button" id="copyJsonButton">
+                        JSON'u kopyala
+                    </button>
+                </div>
+
+                <pre id="parsedJson" class="json-output"></pre>
+            </section>
+
+
+            <section class="panel schedule-panel" id="schedule">
+                <div class="schedule-heading">
+                    <div>
+                        <div class="section-kicker">ADIM 02</div>
+                        <h2>Haftalık vardiya planı</h2>
+                        <p>Personel vardiyalarını ve mola saatlerini tek ekranda görüntüle.</p>
+                    </div>
+                    <div class="schedule-actions">
+                        <span class="demo-badge">ÖRNEK VERİ</span>
+                        <button type="button" class="secondary-button" id="printButton">
+                            ↗ Yazdır
+                        </button>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <span><i class="legend-dot shift-dot"></i> Vardiya</span>
+                    <span><i class="legend-dot break-dot"></i> Mola</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>PERSONEL</th>
+                                <th>PZT</th>
+                                <th>SAL</th>
+                                <th>ÇAR</th>
+                                <th>PER</th>
+                                <th>CUM</th>
+                                <th>CMT</th>
+                                <th>PAZ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody">
+                            </section>
+
+                            <footer class="page-footer">
+                                ShiftTimeTable <span>·</span> Vardiya ve mola planlama
+                            </footer>
+                        </section>
+                    </main>
+                </div>
+
+                <div class="toast-message" id="toastMessage" role="status" aria-live="polite"></div>
+

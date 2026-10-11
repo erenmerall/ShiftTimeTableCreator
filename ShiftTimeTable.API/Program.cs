@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using ShiftTimeTable.API.Data;
+using ShiftTimeTable.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<BreakSchedulingService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
